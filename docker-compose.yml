@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: mysql_blog
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysqldata/
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app-network  
+  api: 
+    container_name: node_blog
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    ports: 
+      - "127.0.0.1:30372:8080"
+    command: 
+      - nodemon
+      - server.js
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network  
+volumes:
+  mysql_data:
+networks:
+  app-network:
+    driver: bridge  

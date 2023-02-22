@@ -1,0 +1,21 @@
+{
+  "name": "docker_web_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "First Last <first.last@example.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
+    "express": "^4.16.1",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.1.2",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.28.0",
+    "slugify": "^1.6.5"
+  },
+  "type": "module"
+}
