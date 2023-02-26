@@ -15,22 +15,22 @@
     <%- include("partials/navbar"); %>
 
     <div class="container">
-      <div class="row">
+      <% articles.forEach(article => { %>
+      <div class="row py-2">
         <div class="col-12">
-          <form action="/question" method="post">
-            <div class="mb-3">
-              <label for="exampleFormControlInput1" class="form-label">Titulo</label>
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="title">
+          <div class="card">
+            <div class="card-header">
+              <%= article.title %>
             </div>
-            <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label">Descrição</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+            <div class="card-body">
+              <a href="/artigo/<%= article.id %>" class="btn btn-sucess">
+                Ver artigo
+              </a>
             </div>
-            <button class="btn btn-primary" type="submit"> Enviar</button>
-
-          </form>
+          </div>
         </div>
       </div>
+      <% }) %>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
