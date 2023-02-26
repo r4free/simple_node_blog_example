@@ -32,6 +32,16 @@
                   <textarea type="text" class="form-control"  id="myeditor" name="content">
                     </textarea>
                 </div>
+                <div class="mb-3">
+                  <label for="content" class="form-label">Categoria</label>
+                  <select class="form-control" name="categoryId">
+                    <% categories.forEach(category => { %>
+                    <option value="<%= category.id %>">
+                      <%= category.title %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
                 <button class="btn btn-primary" type="submit"> Enviar</button>
               </form>
             </div>

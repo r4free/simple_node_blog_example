@@ -1,5 +1,6 @@
 import express from 'express';
 import slugify from 'slugify';
+import Category from '../Category/Category.js';
 import Article from './Article.js';
 
 const Router = express.Router()
@@ -13,24 +14,34 @@ Router.get("/", (req, res) => {
 })
 
 Router.get("/create", (req, res) => {
-    res.render("admin/article/create")
+    Category.findAll().then(categories => {
+        res.render("admin/article/create",
+        {
+            categories
+        })
+    })
 })
 
 Router.get("/edit/:id", (req, res) => {
     Article.findByPk(req.params.id)
     .then(article => {
-        res.render("admin/article/edit", {
-            article
+        Category.findAll().then(categories => {
+            res.render("admin/article/edit", {
+                article,
+                categories
+            })
         })
+        
     })
 })
 
 Router.post("/edit/:id", (req, res) => {
-    const { body : { title, body }} = req
+    const { body : { title, body, categoryId }} = req
     Article.update({
         title,
         slug : slugify(title),
-        body: body 
+        body: body ,
+        categoryId
     }, {
         where: { id:req.params.id }
     })
@@ -40,11 +51,12 @@ Router.post("/edit/:id", (req, res) => {
 })
 
 Router.post("/", (req, res) => {
-    const { body : { title, content }} = req
+    const { body : { title, content, categoryId }} = req
     Article.create({
         title,
         slug : slugify(title),
         body: content,
+        categoryId
     }).then((article)=> {
         res.redirect("/article")
     })

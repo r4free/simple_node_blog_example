@@ -33,7 +33,18 @@
                     <%= article.body %>
                     </textarea>
                 </div>
+                <div class="mb-3">
+                  <label for="content" class="form-label">Categoria</label>
+                  <select class="form-control" name="categoryId" value="<%= article.categoryId %>" >
+                    <% categories.forEach(category => { %>
+                    <option value="<%= category.id %>">
+                      <%= category.title %>
+                    </option>
+                    <% }) %>
+                  </select>
+                </div>
                 <button class="btn btn-primary" type="submit"> Salvar</button>
+                <a href="/article" class="btn btn-warning"> Cancelar</a>
               </form>
             </div>
           </div>
