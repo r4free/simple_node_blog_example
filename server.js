@@ -6,6 +6,7 @@ import connection from "./database/database.js";
 import methodOverride from "method-override";
 import CategoryController from "./Category/CategoryController.js";
 import ArticleController from "./Article/ArticleController.js";
+import Article from "./Article/Article.js";
 
 // Constants
 const PORT = 8080;
@@ -28,7 +29,9 @@ app.use(bodyParser.json())
 
 app.use(methodOverride('_method'));
 
-app.get('/', (req, res) => res.render("index"));
+app.get('/', (req, res) => {
+  Article.findAll().then(articles => res.render("index", { articles }));
+});
 app.use("/category", CategoryController)
 app.use("/article", ArticleController)
 
