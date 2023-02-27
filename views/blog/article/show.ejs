@@ -12,10 +12,9 @@
   </head>
   <body>
 
-    <%- include("partials/navbar"); %>
+    <%- include("../../partials/navbar"); %>
 
     <div class="container">
-      <% articles.forEach(article => { %>
       <div class="row py-2">
         <div class="col-12">
           <div class="card">
@@ -23,14 +22,11 @@
               <%= article.title %>
             </div>
             <div class="card-body">
-              <a href="/artigo/<%= article.id %>" class="btn btn-sucess">
-                Ver artigo
-              </a>
+              <%- article.body %>
             </div>
           </div>
         </div>
       </div>
-      <% }) %>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 

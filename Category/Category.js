@@ -12,6 +12,8 @@ const Category = connection.define("categories", {
     }
 })
 
-Category.hasMany(Article)
-
+Category.hasMany(Article,{
+    foreignKey: 'categoryId'
+  })
+Article.belongsTo(Category)
 export default Category

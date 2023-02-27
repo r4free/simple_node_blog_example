@@ -7,6 +7,7 @@ import methodOverride from "method-override";
 import CategoryController from "./Category/CategoryController.js";
 import ArticleController from "./Article/ArticleController.js";
 import Article from "./Article/Article.js";
+import Category from "./Category/Category.js";
 
 // Constants
 const PORT = 8080;
@@ -30,8 +31,50 @@ app.use(bodyParser.json())
 app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
-  Article.findAll().then(articles => res.render("index", { articles }));
+  const per_page = Number(req.query.per_page ?? 10);
+  const page = Number(req.query.page ?? 1)
+  const offset = (page-1) * per_page;
+  Article.findAndCountAll({
+    limit: per_page,
+    offset,
+    raw:true,
+  }).then(({rows: articles, count: total }) => {
+    res.render("blog/article/index", { 
+      articles, 
+      total, 
+      current_page: page, 
+      next_page: page+1, 
+      per_page, 
+      prev_page: page > 1 ? page-1:1 
+    })
+  });
 });
+
+app.get('/artigo/:slug', (req, res) => {
+  Article.findOne({
+    where: {
+      slug: req.params.slug
+    }
+  }).then(article => res.render("blog/article/show", { article }));
+});
+
+app.get('/category/:slug', (req, res) => {
+  console.log("categoria")
+  Category.findOne({
+    where: {slug: req.params.slug }
+  })
+  .then(category=> {
+    if(category) {
+      category.getArticles().then(articles => {
+        res.render("blog/article/index", { articles })
+      })
+    }else {
+      res.redirect("/")
+    }
+  })
+  
+});
+
 app.use("/category", CategoryController)
 app.use("/article", ArticleController)
 
