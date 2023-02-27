@@ -7,6 +7,7 @@ import connection from "./database/database.js";
 import methodOverride from "method-override";
 import CategoryController from "./Category/CategoryController.js";
 import UserController from "./User/UserController.js";
+import LoginController from "./User/LoginController.js";
 import ArticleController from "./Article/ArticleController.js";
 import Article from "./Article/Article.js";
 import Category from "./Category/Category.js";
@@ -30,7 +31,7 @@ app.use(express.static("public"))
 app.use(session({
   secret: "123123", // from env in the future,
   cookie: {
-    maxAge: 30000
+    maxAge: 300000
   }
 }))
 
@@ -40,6 +41,7 @@ app.use(bodyParser.json())
 app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
+  console.log(req.session.user)
   const per_page = Number(req.query.per_page ?? 10);
   const page = Number(req.query.page ?? 1)
   const offset = (page-1) * per_page;
@@ -83,6 +85,7 @@ app.get('/category/:slug', (req, res) => {
   
 });
 
+app.use("/", LoginController)
 app.use("/user", UserController)
 app.use("/category", CategoryController)
 app.use("/article", ArticleController)
