@@ -1,10 +1,12 @@
 'use strict';
 
 import express from "express"
+import session, { Cookie } from "express-session"
 import bodyParser from "body-parser";
 import connection from "./database/database.js";
 import methodOverride from "method-override";
 import CategoryController from "./Category/CategoryController.js";
+import UserController from "./User/UserController.js";
 import ArticleController from "./Article/ArticleController.js";
 import Article from "./Article/Article.js";
 import Category from "./Category/Category.js";
@@ -24,6 +26,13 @@ const app = express();
 app.set("view engine", "ejs")
 
 app.use(express.static("public"))
+
+app.use(session({
+  secret: "123123", // from env in the future,
+  cookie: {
+    maxAge: 30000
+  }
+}))
 
 app.use(bodyParser.urlencoded({ extended:false }))
 app.use(bodyParser.json())
@@ -59,7 +68,6 @@ app.get('/artigo/:slug', (req, res) => {
 });
 
 app.get('/category/:slug', (req, res) => {
-  console.log("categoria")
   Category.findOne({
     where: {slug: req.params.slug }
   })
@@ -75,6 +83,7 @@ app.get('/category/:slug', (req, res) => {
   
 });
 
+app.use("/user", UserController)
 app.use("/category", CategoryController)
 app.use("/article", ArticleController)
 

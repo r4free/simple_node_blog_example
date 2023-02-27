@@ -1,0 +1,77 @@
+
+    <%- include("../../partials/header"); %>
+
+    <%- include("../../partials/navbar"); %>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12 p-2">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between ">
+              <h1>Usuários</h1>
+              <div>
+                <a href="/user/create" class="btn btn-primary" >
+                  Novo
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">email</th>
+                    <th scope="col">Acoes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% users.forEach(user => { %>
+                  <tr>
+                    <th scope="row">
+                      <%= user.id %>
+                    </th>
+                    <td>
+                      <%= user.name %>
+                    </td>
+                    <td>
+                      <%= user.email %>
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteArticle-<%= user.id%>">Apagar</button>
+                        
+                        <div class="modal fade" id="deleteArticle-<%= user.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <form class="modal-dialog" action="/user/delete/<%= user.id %>" method="post">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Apagar usuário</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                Tem certeza que deseja apagar o registro do usuário? 
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                <button type="submit" class="btn btn-primary" >Sim</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+    
+                        <a href="/user/edit/<%= user.id %>" class="btn btn-warning">Editar</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }) %>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+ <%- include("../../partials/footer"); %>
