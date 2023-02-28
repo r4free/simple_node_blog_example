@@ -1,11 +1,15 @@
 import express from 'express';
 import slugify from 'slugify';
 import Category from '../Category/Category.js';
+import AuthMiddleware from '../Middlewares/AuthMiddleware.js';
 import Article from './Article.js';
+
 
 const Router = express.Router()
 
-Router.get("/", (req, res) => {
+Router.use(AuthMiddleware)
+
+Router.get("/",  (req, res) => {
     Article.findAll().then((articles)=> {
         res.render("admin/article/index", {
             articles,
