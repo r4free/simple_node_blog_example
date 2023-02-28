@@ -7,7 +7,7 @@ import connection from "./database/database.js";
 import methodOverride from "method-override";
 import CategoryController from "./Category/CategoryController.js";
 import UserController from "./User/UserController.js";
-import LoginController from "./User/LoginController.js";
+import LoginController from "./User/AuthController.js";
 import ArticleController from "./Article/ArticleController.js";
 import Article from "./Article/Article.js";
 import Category from "./Category/Category.js";
