@@ -40,8 +40,12 @@ app.use(bodyParser.json())
 
 app.use(methodOverride('_method'));
 
+app.use(function(req,res,next){
+  res.locals.user = req.session.user ? req.session.user : null
+  next()
+})
+
 app.get('/', (req, res) => {
-  console.log(req.session.user)
   const per_page = Number(req.query.per_page ?? 10);
   const page = Number(req.query.page ?? 1)
   const offset = (page-1) * per_page;
